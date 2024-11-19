@@ -1,29 +1,35 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import { useFonts } from 'expo-font';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+export default function App() {
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+
+  const [fontsLoaded] = useFonts({
+    "Poppins": require("@/assets/fonts/Poppins-Regular.ttf"),
+    "PoppinsI": require("@/assets/fonts/Poppins-Italic.ttf"),
+    "PoppinsB": require("@/assets/fonts/Poppins-Bold.ttf"),
+    "PoppinsSB": require("@/assets/fonts/Poppins-SemiBold.ttf"),
+    "PoppinsL": require("@/assets/fonts/Poppins-ExtraLight.ttf"),
+    "PoppinsLI": require("@/assets/fonts/Poppins-ExtraLightItalic.ttf")
+
   });
 
   useEffect(() => {
-    if (loaded) {
+    if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded]);
 
-  if (!loaded) {
+  if (!fontsLoaded) {
     return null;
   }
 
