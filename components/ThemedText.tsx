@@ -5,7 +5,7 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'bold' | 'italic' | 'lightfont' | 'lightitalic'  | 'title' | 'subtitle' | 'link';
+  type?: 'default' | 'bold' | 'italic' | 'lightfont' | 'lightitalic'  | 'title' | 'subtitle' | 'link' | 'semibold'
 };
 
 export function ThemedText({
@@ -27,6 +27,7 @@ export function ThemedText({
         type === 'lightfont' ? styles.lightfont : undefined, 
         type === 'lightitalic' ? styles.lightitalic : undefined,
         type === 'title' ? styles.title : undefined,
+        type === 'semibold' ? styles.semibold : undefined,
         type === 'subtitle' ? styles.subtitle : undefined,
         type === 'link' ? styles.link : undefined,
         style,
@@ -56,10 +57,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#222",
     alignSelf: "center",
   },
-  defaultSemiBold: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: '600',
+  semibold: {
+    fontFamily: "PoppinsSB"
   },
   title: {
     fontSize: 32,
