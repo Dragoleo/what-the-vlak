@@ -12,6 +12,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-, "app/(tabs)/index.jsx", "app/(tabs)/index.jsx", "components/ThemedText.jsx", "app/_layout.jsx", "app/(tabs)/index.jsx", "app/+not-found.jsx", "app/tabs/index.jsx"  ]
+    "expo-env.d.ts",
+    "app/(app)/(tabs)/placeholder.jsx", "app/(app)/(tabs)/placeholder.jsx", "components/ThemedText.jsx", "app/_layout.jsx", "app/(app)/(tabs)/placeholder.jsx", "app/+not-found.jsx", "app/tabs/index.jsx"  ]
 }

@@ -13,8 +13,8 @@ export const questions = [
     },
     {
         question: "Kdy se vyráběla motorová řada 814?",
-        options: ["1975-1982", "1985-1992", "1995-2002", "2005-2008"],
-        answer: "1975-1982",
+        options: ["2005-2012", "2003-2008", "1998-2005", "2005-2008"],
+        answer: "2005-2012",
         image: ""
     },
     {

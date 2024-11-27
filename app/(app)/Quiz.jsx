@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { questions as quizData } from '@/components/Questions';
 
 
-export default function Index(optionHighlight) {
+export default function Quiz(optionHighlight) {
 
   const [ currentQuestion, setCurrentQuestion ] = useState(0);
 
@@ -30,7 +30,7 @@ export default function Index(optionHighlight) {
       setScore((preScore) => preScore + 1);
     } else {
       await delay(200);
-      alert(`Nesprávná odpověď.\nSprávná odpověď: ${answer}`);
+      alert(`Nesprávná odpověď.`);
     } 
 
     const nextQuestion = currentQuestion + 1;
@@ -48,19 +48,23 @@ export default function Index(optionHighlight) {
     <>
       <View style={styles.container}>
         {showScore ? <View style={styles.questionContainer}>
-          <Yap styles={style.white}> Skóre: {score} </Yap>
+          <Yap style={styles.white}> Skóre: {score} </Yap>
           <Ghost style={styles.optionContainer} onPress={handRestart} >
             <Yap style={styles.optionStyle}>Restartovat</Yap>
           </Ghost>
         </View> :
         <View style={styles.questionContainer}>
           { quizData[currentQuestion]?.image != "" ? <Image source={quizData[currentQuestion]?.image} style={styles.questionImage} /> : null }
+          <Yap style={styles.white}>Otázka {currentQuestion + 1}/{quizData.length}</Yap>
           <Yap style={styles.header}> { quizData[currentQuestion]?.question } </Yap>
           { quizData[currentQuestion]?.options.map((prop) => {
             return <Ghost style={[styles.optionContainer]} className={optionHighlight} onPress={ () => handleAnswer(prop) }>
               <Yap style={styles.optionStyle}> {prop} </Yap>
             </Ghost>
-          })}
+          })}<Yap>{"\n"}</Yap>
+          <Ghost style={styles.redOptionContainer} onPress={handRestart} >
+            <Yap style={[styles.optionStyle, styles.red]}>Restartovat</Yap>
+          </Ghost>
         </View> 
         }
       </View>
@@ -71,6 +75,17 @@ export default function Index(optionHighlight) {
 const styles = StyleSheet.create({
   white: {
     color: "white"
+  },
+  red: {
+    color: "#e94444",
+  },
+  redOptionContainer: {
+    borderColor: "#e94444",
+    borderWidth: 4,
+    borderRadius: 5,
+    marginTop: 15,
+    width: "50%",
+    alignSelf: "center",
   },
   container: {
     alignItems: "center",
@@ -106,6 +121,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: null,
     aspectRatio: 1.1,
+    margin: 10,
     resizeMode: "contain",
   },
   correct: {
