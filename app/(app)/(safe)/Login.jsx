@@ -3,7 +3,7 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  TextInput as Input,
+  // TextInput as Input,
   TouchableOpacity as Ghost,
   Image,
 } from "react-native";
@@ -11,170 +11,138 @@ import { ThemedText as Yap } from "@/components/ThemedText";
 import { Feather } from "@expo/vector-icons";
 import { ThemedView as View } from "@/components/ThemedView";
 import { useState } from "react";
+import { Link } from "expo-router";
+import { Formik } from "formik";
+import { styles, LabelIcon, StyledInput as Input } from "@/components/Styles";
+import { Colors } from "@/constants/Colors"
+import { ShowPassword } from "@/components/ShowPassword"
+import { FormButton as Button } from "@/components/FormButton"
 
 /*
         DŮKLADNĚ ZKONTROLOVAT, ZMĚNIT STYLY
 */
 
 export default function Login() {
-  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
-  const [password, setPassword] = useState<string>("")
-  const [email, setEmail] = useState<string>("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.flex}>
       <StatusBar style="auto" />
       <ScrollView style={styles.center}>
         <View style={styles.content}>
           <Yap style={styles.header}>Přihlásit se</Yap>
-          <View style={styles.inputContainer}>
-            <View style={styles.icon}>
-              <Feather name="mail" size={22} />
+          <View>
+            <Formik
+              initialValues={{ email: "", password: "" }}
+              onSubmit={(values) => {
+                console.log(values);
+              }}
+            >
+              {({handleChange, handleBlur, handleSubmit, values}) => (<View>
+                <HandledInput
+                  label="E-mailová adresa"
+                  icon="mail"
+                  placeholder="E-mailová adresa"
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                  keyboardType="email-address"
+                  />
+                  <HandledInput
+                  label="Heslo"
+                  icon="lock"
+                  placeholder="Heslo"
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  value={values.password}
+                  secureTextEntry={true}
+                  isPassword={true}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
+                  />
+                  <Button></Button>
+              </View>)}
+            </Formik>
+            <View style={styles.inputContainer}>
+              <View style={styles.icon}>
+                <Feather name="mail" size={22} />
+              </View>
+              <Input
+                style={styles.input}
+                placeholder="E-mail"
+                selectionColor="#3662AA"
+                onChangeText={setEmail}
+                value={email}
+              />
             </View>
-            <Input
-              style={styles.input}
-              placeholder="E-mail"
-              selectionColor="#3662AA"
-              onChangeText={setEmail}
-              value={email}
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <View style={styles.icon}>
-              <Feather name="lock" size={22} />
+            <View style={styles.inputContainer}>
+              <View style={styles.icon}>
+                <Feather name="lock" size={22} />
+              </View>
+              <Input
+                style={styles.input}
+                placeholder="Heslo"
+                selectionColor="#3662AA"
+                onChange={setPassword}
+                secureTextEntry={passwordVisible}
+                value={password}
+              />
+
             </View>
-            <Input
-              style={styles.input}
-              placeholder="Heslo"
-              selectionColor="#3662AA"
-              onChange={setPassword}
-              secureTextEntry={passwordVisible}
-              value={password}
-            />
-            <Ghost style={styles.showPassword} onPress={() => setPasswordVisible(!passwordVisible)} >
-              <Feather name={passwordVisible ? "eye" : "eye-off"} size={20} />
+            <Ghost styLe={styles.forgottenPassword}>
+              <Yap style={styles.forgottenYapping}>Zapomenuté heslo?</Yap>
+            </Ghost>
+
+            <View style={styles.orContainer}>
+              <View style={styles.orLine} />
+              <Yap style={styles.or}>Nebo</Yap>
+              <View style={styles.orLine} />
+            </View>
+            <Ghost style={styles.thirdPartyButton}>
+              <Image
+                source={require("@/assets/images/Google_logo.svg")}
+                style={styles.thirdPartyLogo}
+              />
+              <Yap style={styles.thirdPartyText}>
+                Přihlásit se pomocí thirdParty
+              </Yap>
+            </Ghost>
+            <Ghost style={styles.thirdPartyButton}>
+              <Image
+                source={require(/* DOPLNIT FACEBOOK LOGO */)}
+                style={styles.thirdPartyLogo}
+              />
+              <Yap style={styles.thirdPartyText}>
+                Přihlásit se pomocí thirdParty
+              </Yap>
+            </Ghost>
+            <Ghost style={styles.register}>
+              <Yap>
+                Nemáte účet?{" "}
+                <Link href={{ pathname: "./Register" }}>
+                  <Yap style={styles.forgottenYapping}>Vytvořte si ho</Yap>
+                </Link>
+              </Yap>
             </Ghost>
           </View>
-          <Ghost styLe={styles.forgottenPassword}>
-            <Yap style={styles.forgottenYapping}>Zapomenuté heslo?</Yap>
-          </Ghost>
-          <Ghost style={styles.loginButton}>
-            <Yap style={styles.loginYap}>Přihlásit se</Yap>
-          </Ghost>
-          <View style={styles.orContainer}>
-            <View style={styles.orLine} />
-            <Yap style={styles.or}>Nebo</Yap>
-            <View style={styles.orLine} />
-          </View>
-          <Ghost style={styles.googleButton}>
-            <Image
-              source={require("@/assets/images/Google_logo.svg")}
-              style={styles.googleLogo}
-            />
-            <Yap style={styles.googleText}>Přihlásit se pomocí Google</Yap>
-          </Ghost>
-          <Ghost style={styles.register}>
-            <Yap>
-              Nemáte účet?{" "}
-              <Yap style={styles.forgottenYapping}>Vytvořte si ho</Yap>
-            </Yap>
-          </Ghost>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  center: {
-    flex: 1,
-    alignItems: center,
-    justifyContent: center,
-  },
-  content: {
-    paddingHorizontal: 30,
-  },
-  header: {
-    fontSize: 30,
-    fontWeight: "bold",
-    marginBottom: 40,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 20,
-    position: "relative",
-  },
-  icon: {
-    marginRight: 15,
-  },
-  input: {
-    borderBottomWidth: 1.5,
-    flex: 1,
-    paddingBottom: 10,
-    borderBottomColor: "#eee",
-    fontSize: 16,
-  },
-  showPassword: {
-    position: "absolute",
-    right: 0,
-  },
-  forgottenPassword: {
-    alignSelf: "flex-end",
-  },
-  forgottenYapping: {
-    color: "#3662AA",
-    fontSize: 16,
-    type: "semibold",
-  },
-  loginButton: {
-    backgroundColor: "#3662AA",
-    padding: 14,
-    borderRadius: 10,
-    marginTop: 20,
-  },
-  loginYap: {
-    color: "white",
-    textAlign: "center",
-    type: "bold",
-  },
-  orContainer: {
-    flexDirection: "row",
-    marginVertical: 20,
-  },
-  orLine: {
-    height: 1,
-    flex: 1,
-  },
-  or: {
-    marginHorizontal: 10,
-    FontSize: 14,
-  },
-  googleButton: {
-    borderRadius: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-  },
-  googleText: {
-    textAlign: "center",
-    type: "semibold",
-    fontSize: 16,
-  },
-  googleLogo: {
-    width: 20.03,
-    height: 20.03,
-    position: "absolute",
-    left: 14,
-  },
-  register: {
-    alignSelf: "center",
-    marginTop: 40,
-  },
-});
+const HandledInput = ({icon, isPassword, showPassword, setShowPassword, ...props}) => {
+  return (
+    <View>
+      <LabelIcon>
+        <Feather name={icon} size={20} color={brand}  />
+      </LabelIcon>
+      <Input selectionColor="#3662AA">{...props}</Input>
+      {isPassword && (
+        <ShowPassword component="Login" />
+      )}
+    </View>
+  )
+}
